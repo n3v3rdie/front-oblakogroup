@@ -1,0 +1,12 @@
+h1{
+  text-align: center;
+  margin: 0;
+  color: #fff;
+}
+button {
+  color:white;
+  position: absolute;
+  margin: 10px;
+  top: 0;
+  right: 0;
+}

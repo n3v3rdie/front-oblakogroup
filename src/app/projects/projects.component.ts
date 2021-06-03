@@ -32,7 +32,7 @@ export class ProjectsComponent implements OnInit {
     this.ProjectService.loadAll();
   };
 
-  checkBoxClick(todo: Todo):boolean {
+  checkBoxClick(todo: Todo): boolean {
     const newTodo = Object.assign({}, todo);
     newTodo.isCompleted = !newTodo.isCompleted;
     this.ProjectService.toogleTodo(newTodo);

@@ -7,20 +7,7 @@ import { Project, Todo } from "../model/Project";
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
-  styles: [`
-    h1{
-      text-align: center;
-      margin: 0;
-      color: #fff;
-    }
-    button {
-      color:white;
-      position: absolute;
-      margin: 10px;
-      top: 0;
-      right: 0;
-    }
-  `]
+  styleUrls: ['./navigation.component.css']
 })
 export class NavigationComponent {
 
