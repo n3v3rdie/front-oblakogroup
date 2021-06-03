@@ -1,0 +1,9 @@
+{
+    "/projects": {
+      "target": "https://nikolayapp.herokuapp.com/",
+      "secure": true,
+      "changeOrigin": true,
+      "pathRewrite": {
+      }
+    }
+}

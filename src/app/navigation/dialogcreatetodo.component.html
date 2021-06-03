@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>Новая задача</h2>
+<div mat-dialog-content>
+  <div class="flex-container-col">
+    <mat-form-field>
+      <mat-label>Название задачи...</mat-label>
+      <input matInput>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Категория</mat-label>
+      <mat-select #categoryList>
+        <mat-option value="">Новая категория</mat-option>
+        <mat-option *ngFor="let p of projects" value="p.id">{{ p.title }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field *ngIf="categoryList.value===''">
+      <mat-label>Название категории...</mat-label>
+      <input matInput>
+    </mat-form-field> 
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button>Отмена</button>
+  <button mat-raised-button color="primary" cdkFocusInitial>Сохранить</button>
+</div>
