@@ -9,15 +9,14 @@ import { plainToClass } from 'class-transformer';
 })
 
 export class ProjectService {
-  private baseUrl = '';
-  private toogleTodoUrl = '/projects/0/todos/'  
+  private baseUrl = 'https://nikolayapp.herokuapp.com';
   private _projects = new BehaviorSubject<Project[]>([]);
   private dataStore: { projects: Project[] } = { projects: [] };
   readonly projects = this._projects.asObservable();
 
   constructor(private http: HttpClient) { }
 
-  loadAll(){
+  loadAll() {
     const url = `${this.baseUrl}/projects`;
     this.http.get(url).subscribe(
       data => {
@@ -32,7 +31,7 @@ export class ProjectService {
   }
   
   toogleTodo(todo: Todo) {
-    const url = `${this.baseUrl}/projects/0/todos/${todo.id}`
+    const url = `${this.baseUrl}/projects/0/todos/${todo.id}`;
     this.http.put<Todo>(url, todo).subscribe(
       data => {
         this.dataStore.projects.forEach((p, i) => {
@@ -48,6 +47,19 @@ export class ProjectService {
          alert('Error update data');
          console.log(error);
        }
+    );
+  }
+
+  createTodo(newTodo: Todo) {
+    const url = `${this.baseUrl}/todos`;
+    this.http.post<Todo>(url, newTodo).subscribe(
+      data => {
+        this.loadAll();
+      },
+      error => {
+        alert('Error create todo');
+        console.log(error);
+      }
     );
   }
 

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
@@ -26,6 +27,7 @@ import {MatSelectModule} from '@angular/material/select';
   imports: [
     BrowserModule,
     HttpClientModule,
+    ReactiveFormsModule,
     MatCardModule,
     MatIconModule,
     MatCheckboxModule,
