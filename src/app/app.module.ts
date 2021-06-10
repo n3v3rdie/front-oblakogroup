@@ -4,8 +4,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { NavigationComponent, DialogCreateTodo } from './navigation/navigation.component';
+import { NavigationComponent } from './navigation/navigation.component';
+import { DialogCreateTodo } from './navigation/dialogcreatetodo.component';
 import { ProjectsComponent } from './projects/projects.component';
+import { TodoComponent } from './todo/todo.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import {MatButtonModule} from '@angular/material/button'; 
@@ -23,6 +25,7 @@ import {MatSelectModule} from '@angular/material/select';
     NavigationComponent,
     DialogCreateTodo,
     ProjectsComponent,
+    TodoComponent,
   ],
   imports: [
     BrowserModule,

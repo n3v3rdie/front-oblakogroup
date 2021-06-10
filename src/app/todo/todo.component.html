@@ -1,0 +1,4 @@
+<mat-checkbox [checked]="todo.isCompleted" (click)="checkBoxClick(todo)" color="primary">
+    <span *ngIf="todo.isCompleted; else text" style="text-decoration:line-through"> {{ todo.text }} </span>
+    <ng-template #text>{{ todo.text }}</ng-template>
+</mat-checkbox>

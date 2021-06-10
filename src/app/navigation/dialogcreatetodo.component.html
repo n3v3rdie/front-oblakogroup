@@ -3,19 +3,19 @@
   <form class="flex-container-col" [formGroup]="todoCreationForm">
     <mat-form-field>
       <mat-label>Название задачи...</mat-label>
-      <input matInput formControlName="text" >
+      <input matInput formControlName="text">
     </mat-form-field>
     <mat-form-field>
       <mat-label>Категория</mat-label>
-      <mat-select #categoryList formControlName="project_id" >
-        <mat-option value="">Новая категория</mat-option>
-        <mat-option *ngFor="let p of projects" value="{{ p.id }}">{{ p.title }}</mat-option>
+      <mat-select #categoryList formControlName="project_id" (selectionChange)="selectEvent(categoryList.value)">
+        <mat-option label="Новая категория"></mat-option>
+        <mat-option *ngFor="let p of ProjectService.projects | async" [value]="p.id">{{ p.title }}</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field *ngIf="categoryList.value===''">
+    <mat-form-field *ngIf='!categoryList.value'>
       <mat-label>Название категории...</mat-label>
       <input matInput formControlName="title">
-    </mat-form-field> 
+    </mat-form-field>
   </form>
 </div>
 <div mat-dialog-actions>

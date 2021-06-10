@@ -1,0 +1,8 @@
+<div class="flex-container">
+    <mat-card class="project-card" *ngFor="let p of ProjectService.projects | async">
+        <mat-card-title> {{ p.title }} </mat-card-title>
+        <div *ngFor="let t of p.todos">
+            <app-todo [todo]="t"></app-todo>
+        </div>
+    </mat-card>
+</div>

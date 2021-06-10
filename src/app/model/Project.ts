@@ -1,14 +1,9 @@
-import {Type} from "class-transformer";
+import { Type } from "class-transformer";
+import { Todo } from "./Todo"
 
-
-export class Project{
+export class Project {
   id!: number;
   title!: string;
   @Type(() => Todo)
   todos!: Todo[];
-}
-export class Todo{
-  id!: number;
-  text!: string;
-  isCompleted!: boolean;
 }

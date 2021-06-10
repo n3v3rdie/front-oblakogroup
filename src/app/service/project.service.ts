@@ -1,27 +1,27 @@
 import { Injectable } from '@angular/core';
-import { HttpClient }  from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { Project, Todo } from '../model/Project';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs';
+import { Todo } from '../model/Todo';
+import { Project } from '../model/Project';
 import { plainToClass } from 'class-transformer';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class ProjectService {
-  private baseUrl = 'https://nikolayapp.herokuapp.com';
-  private _projects = new BehaviorSubject<Project[]>([]);
-  private dataStore: { projects: Project[] } = { projects: [] };
-  readonly projects = this._projects.asObservable();
+  projects = new BehaviorSubject<Project[]>([]);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.loadAll();
+  }
 
-  loadAll() {
-    const url = `${this.baseUrl}/projects`;
+  private loadAll() {
+    const url = `${environment.baseUrl}/projects`;
     this.http.get(url).subscribe(
       data => {
-        this.dataStore.projects = plainToClass(Project, data as Object[]);
-        this._projects.next(Object.assign({}, this.dataStore).projects);
+        this.projects.next(plainToClass(Project, data as Object[]));
       },
       error => {
         alert('Error load data');
@@ -29,32 +29,48 @@ export class ProjectService {
       }
     );
   }
-  
+
   toogleTodo(todo: Todo) {
-    const url = `${this.baseUrl}/projects/0/todos/${todo.id}`;
+    const url = `${environment.baseUrl}/projects/${todo.project_id}/todos/${todo.id}`;
     this.http.put<Todo>(url, todo).subscribe(
       data => {
-        this.dataStore.projects.forEach((p, i) => {
-          p.todos.forEach((t, j) =>{
-            if (t.id === todo.id){
-              this.dataStore.projects[i].todos[j] = todo;
-              this._projects.next(Object.assign({}, this.dataStore).projects);
-            }
-          })
-        })      
-       },
-       error => {
-         alert('Error update data');
-         console.log(error);
-       }
+        const newTodo = plainToClass(Todo, data);
+        const projects = this.projects.getValue();
+        projects.find(
+          (p) => {
+            if (p.id === newTodo.project_id)
+              p.todos.find((todo) => {
+                if (todo.id === newTodo.id) {
+                  todo.isCompleted = newTodo.isCompleted;
+                  return;
+                }
+              })
+          }
+        );
+        this.projects.next(projects);
+      },
+      error => {
+        alert('Error update data');
+        console.log(error);
+      }
     );
   }
 
   createTodo(newTodo: Todo) {
-    const url = `${this.baseUrl}/todos`;
-    this.http.post<Todo>(url, newTodo).subscribe(
+    const url = `${environment.baseUrl}/todos`;
+    this.http.post<any>(url, newTodo).subscribe(
       data => {
-        this.loadAll();
+        const projects = this.projects.getValue();
+        const newTodo = plainToClass(Todo, data);
+        let project = projects.find(p => p.id === newTodo.project_id)
+        if (!project) {
+          project = plainToClass(Project, data.project);
+          project.todos = [newTodo];
+          projects.push(project);
+        } else {
+          project.todos.push(newTodo);
+        }
+        this.projects.next(projects);
       },
       error => {
         alert('Error create todo');
